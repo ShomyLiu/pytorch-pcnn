@@ -24,3 +24,6 @@
     其中 参数配置位于 `config.py`，可以直接指定修改，如: `python main_sem.py train --batch_size=32`
 - 模型预测的结果位于`semeval`文件夹，使用`./test.sh`使用semeval官方的脚本测试，最后结果保存于res.txt 
 - F1大概可以到80-81%左右，经过fine-tuning 大概到82-83%
+
+## 参考
+- PCNN: Relation Classification via Convolutional Deep Neural Network
