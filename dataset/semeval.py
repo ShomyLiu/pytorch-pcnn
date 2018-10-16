@@ -21,7 +21,7 @@ class SEMData(Dataset):
         self.right_pf = np.load(path + 'right_pf.npy')
         self.left_pf = np.load(path + 'left_pf.npy')
         self.labels = np.load(path + 'labels.npy')
-        self.x = zip(self.lexical_feature, self.word_feautre, self.left_pf, self.right_pf, self.labels)
+        self.x = list(zip(self.lexical_feature, self.word_feautre, self.left_pf, self.right_pf, self.labels))
         print('loading finish')
 
     def __getitem__(self, idx):
@@ -84,7 +84,7 @@ class SEMLoad(object):
         '''
         load relations
         '''
-        rels = [i.strip('\n').split() for i in file(self.rel_path)]
+        rels = [i.strip('\n').split() for i in open(self.rel_path)]
         rel2id = {j: int(i) for i, j in rels}
         id2rel = {int(i): j for i, j in rels}
 
@@ -100,11 +100,11 @@ class SEMLoad(object):
         wordlist = []
         vecs = []
 
-        w2v = file(self.w2v_path)
+        w2v = open(self.w2v_path)
         for line in w2v:
             line = line.strip('\n').split()
             word = line[0]
-            vec = map(float, line[1:])
+            vec = list(map(float, line[1:]))
             wordlist.append(word)
             vecs.append(np.array(vec))
 
@@ -125,7 +125,7 @@ class SEMLoad(object):
         '''
         all_sens =[]
         all_labels =[]
-        for line in file(path, 'r'):
+        for line in open(path, 'r'):
             line = line.strip('\n').split(' ')
             sens = line[5:]
             rel = int(line[0])
@@ -134,7 +134,7 @@ class SEMLoad(object):
             ent2 = (int(line[3]), int(line[4]))
 
             all_labels.append(rel)
-            sens = map(lambda x: self.word2id.get(x, self.word2id['<PAD>']), sens)
+            sens = list(map(lambda x: self.word2id.get(x, self.word2id['<PAD>']), sens))
 
             all_sens.append((ent1, ent2, sens))
 
@@ -238,7 +238,7 @@ class SEMLoad(object):
 
 if __name__ == "__main__":
     data = SEMLoad('./dataset/SemEval/', train=True)
-    print len(data.word2id)
+    print(len(data.word2id))
     data.save()
     data = SEMLoad('./dataset/SemEval/', train=False)
     data.save()

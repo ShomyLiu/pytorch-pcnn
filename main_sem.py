@@ -56,16 +56,16 @@ def train(**kwargs):
 
         for ii, data in enumerate(train_data_loader):
             if opt.use_gpu:
-                data = map(lambda x: Variable(x.cuda()), data)
+                data = list(map(lambda x: Variable(x.cuda()), data))
             else:
-                data = map(Variable, data)
+                data = list(map(Variable, data))
 
             model.zero_grad()
             out = model(data[:-1])
             loss = criterion(out, data[-1])
             loss.backward()
             optimizer.step()
-            total_loss += loss.data[0]
+            total_loss += loss.data.item()
 
         train_avg_loss = total_loss / len(train_data_loader.dataset)
         acc, f1, eval_avg_loss, pred_y = eval(model, test_data_loader, opt.rel_num)
@@ -90,16 +90,16 @@ def eval(model, test_data_loader, k):
     for ii, data in enumerate(test_data_loader):
 
         if opt.use_gpu:
-            data = map(lambda x: Variable(x.cuda(), volatile=True), data)
+            data = list(map(lambda x: torch.LongTensor(x).cuda(), data))
         else:
-            data = map(lambda x: Variable(x, volatile=True), data)
+            data = list(map(lambda x: torch.LongTensor(x), data))
 
         out = model(data[:-1])
         loss = F.cross_entropy(out, data[-1])
 
         pred_y.extend(torch.max(out, 1)[1].data.cpu().numpy().tolist())
         labels.extend(data[-1].data.cpu().numpy().tolist())
-        avg_loss += loss.data[0]
+        avg_loss += loss.data.item()
 
     size = len(test_data_loader.dataset)
     assert len(pred_y) == size and len(labels) == size
@@ -110,7 +110,7 @@ def eval(model, test_data_loader, k):
 
 
 def write_result(model_name, pred_y):
-    out = file('./semeval/sem_{}_result.txt'.format(model_name), 'w')
+    out = open('./semeval/sem_{}_result.txt'.format(model_name), 'w')
     size = len(pred_y)
     start = 8001
     end = start + size

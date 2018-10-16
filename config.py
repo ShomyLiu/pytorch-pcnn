@@ -41,7 +41,7 @@ class DefaultConfig(object):
 
     norm_emb=True
 
-    num_epochs = 50  # the number of epochs for training
+    num_epochs = 100  # the number of epochs for training
     drop_out = 0.5
     lr = 0.003  # initial learning rate
     lr_decay = 0.95  # when val_loss increase, lr = lr*lr_decay
@@ -63,7 +63,7 @@ def parse(self, kwargs):
         '''
         user can update the default hyperparamter
         '''
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             if not hasattr(self, k):
                 raise Exception('opt has No key: {}'.format(k))
             setattr(self, k, v)
@@ -73,7 +73,7 @@ def parse(self, kwargs):
 
         print('*************************************************')
         print('user config:')
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             if not k.startswith('__'):
                 print("{} => {}".format(k, getattr(self, k)))
 
