@@ -43,13 +43,13 @@ class PCNN(BasicModule):
         '''
         use xavier to init
         '''
-        nn.init.xavier_normal(self.cnn_linear.weight)
-        nn.init.constant(self.cnn_linear.bias, 0.)
-        nn.init.xavier_normal(self.out_linear.weight)
-        nn.init.constant(self.out_linear.bias, 0.)
+        nn.init.xavier_normal_(self.cnn_linear.weight)
+        nn.init.constant_(self.cnn_linear.bias, 0.)
+        nn.init.xavier_normal_(self.out_linear.weight)
+        nn.init.constant_(self.out_linear.bias, 0.)
         for conv in self.convs:
-            nn.init.xavier_normal(conv.weight)
-            nn.init.constant(conv.bias, 0)
+            nn.init.xavier_normal_(conv.weight)
+            nn.init.constant_(conv.bias, 0)
 
     def init_word_emb(self):
 
