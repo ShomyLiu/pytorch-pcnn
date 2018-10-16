@@ -1,3 +1,7 @@
+2018.10.16更新:
+
+- master分支: Python 3.5x & Pytorch 0.4+
+- dev 分支: Python 2.7x & Pytorch 0.3
 
 ## Introduction
 基于Pytorch复现PCNN (Zeng 2014)全监督关系抽取的代码. 
