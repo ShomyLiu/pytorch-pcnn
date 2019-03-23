@@ -187,7 +187,7 @@ class SEMLoad(object):
             if ori_len > self.max_len:
                 sen = sen[: self.max_len]
                 pos_left = pos_left[: self.max_len]
-                pos_right = pos_left[: self.max_len]
+                pos_right = pos_right[: self.max_len]
             elif ori_len < self.max_len:
                 sen.extend([self.word2id['<PAD>']] * (self.max_len - ori_len))
                 pos_left.extend([self.limit * 2 + 2] * (self.max_len - ori_len))
